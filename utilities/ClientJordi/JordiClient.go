@@ -74,9 +74,11 @@ func (c ClientJordi) Add(path string, body string) *http.Response {
 	return resp
 }
 
-func (c ClientJordi) Delete(path string, name string, surname string) *http.Response {
-	NewUrl := fmt.Sprintf("%s%s/%s/%s", c.BaseUrl, path, name, surname)
-
+func (c ClientJordi) Delete(path string, variables []string) *http.Response {
+	NewUrl := fmt.Sprintf("%s%s", c.BaseUrl, path)
+	for i := range variables {
+		NewUrl = fmt.Sprintf("%s/%s", NewUrl, variables[i])
+	}
 	req, err := http.NewRequest("DELETE", NewUrl, nil)
 	if err != nil {
 		panic(err)
